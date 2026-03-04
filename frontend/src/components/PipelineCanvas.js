@@ -111,6 +111,7 @@ export const PipelineCanvas = () => {
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
                 connectionLineType="smoothstep"
+                connectionRadius={20}
             >
                 <Background
                     variant="dots"

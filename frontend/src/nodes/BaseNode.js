@@ -41,13 +41,6 @@ export const BaseNode = ({
         deleteElements({ nodes: [{ id }] });
     }, [id, deleteElements]);
 
-    // Evenly distribute handles along the node height
-    const getHandleTop = (index, total) => {
-        if (total === 1) return '50%';
-        const step = 100 / (total + 1);
-        return `${step * (index + 1)}%`;
-    };
-
     return (
         <div
             {...hoverProps}
@@ -119,44 +112,54 @@ export const BaseNode = ({
             </div>
 
             {/* Target (input) handles — left side */}
-            {inputs.map((handle, i) => (
-                <Handle
-                    key={handle.id}
-                    type="target"
-                    position={Position.Left}
-                    id={`${id}-${handle.id}`}
-                    style={{
-                        top: getHandleTop(i, inputs.length),
-                        background: 'var(--handle-in)',
-                        width: 11,
-                        height: 11,
-                        border: '2px solid var(--bg-node)',
-                        boxShadow: '0 0 4px rgba(129,140,248,0.6)',
-                        ...handle.style,
-                    }}
-                    title={handle.label || handle.id}
-                />
-            ))}
+            {inputs.map((handle, i) => {
+                const top = inputs.length === 1
+                    ? '50%'
+                    : `${(100 / (inputs.length + 1)) * (i + 1)}%`;
+                return (
+                    <Handle
+                        key={handle.id}
+                        type="target"
+                        position={Position.Left}
+                        id={`${id}-${handle.id}`}
+                        style={{
+                            top,
+                            background: 'var(--handle-in)',
+                            width: 11,
+                            height: 11,
+                            border: '2px solid var(--bg-node)',
+                            boxShadow: '0 0 4px rgba(129,140,248,0.6)',
+                            ...handle.style,
+                        }}
+                        title={handle.label || handle.id}
+                    />
+                );
+            })}
 
             {/* Source (output) handles — right side */}
-            {outputs.map((handle, i) => (
-                <Handle
-                    key={handle.id}
-                    type="source"
-                    position={Position.Right}
-                    id={`${id}-${handle.id}`}
-                    style={{
-                        top: getHandleTop(i, outputs.length),
-                        background: 'var(--handle-out)',
-                        width: 11,
-                        height: 11,
-                        border: '2px solid var(--bg-node)',
-                        boxShadow: '0 0 4px rgba(244,114,182,0.6)',
-                        ...handle.style,
-                    }}
-                    title={handle.label || handle.id}
-                />
-            ))}
+            {outputs.map((handle, i) => {
+                const top = outputs.length === 1
+                    ? '50%'
+                    : `${(100 / (outputs.length + 1)) * (i + 1)}%`;
+                return (
+                    <Handle
+                        key={handle.id}
+                        type="source"
+                        position={Position.Right}
+                        id={`${id}-${handle.id}`}
+                        style={{
+                            top,
+                            background: 'var(--handle-out)',
+                            width: 11,
+                            height: 11,
+                            border: '2px solid var(--bg-node)',
+                            boxShadow: '0 0 4px rgba(244,114,182,0.6)',
+                            ...handle.style,
+                        }}
+                        title={handle.label || handle.id}
+                    />
+                );
+            })}
         </div>
     );
 };
